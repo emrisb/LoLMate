@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">LoLMate</string>
+    <string name="summoner_id">Summoner id</string>
+    <string name="login">SIGN IN</string>
+    <string name="summoner">Summoner Name</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
