@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.isbsoft.lolmate.SendRequest;
 import com.isbsoft.lolmate.core.network.interfaces.OnResponse;
 import com.isbsoft.lolmate.core.network.response.BaseResponse;
 
@@ -17,12 +16,11 @@ import com.isbsoft.lolmate.core.network.response.BaseResponse;
 
 public class BaseFragment extends Fragment {
 
-    protected SendRequest sendRequestInstance = null;
+    //protected SendRequest sendRequestInstance;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        sendRequestInstance = new SendRequest();
+        //sendRequestInstance = new SendRequest();
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

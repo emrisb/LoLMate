@@ -6,5 +6,5 @@ package com.isbsoft.lolmate.enums;
 
 public enum LoginEnum {
 
-    User
+    User, UserToProfile
 }

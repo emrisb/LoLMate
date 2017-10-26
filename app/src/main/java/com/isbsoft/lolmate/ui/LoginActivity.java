@@ -1,5 +1,6 @@
 package com.isbsoft.lolmate.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -50,9 +51,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             String summonerName = edtSummoner.getText().toString().trim();
             if (summonerName.length() > 0) {
                 String url = RequestURL.BaseURL.toString()
+                        + "summoner/v3/summoners/by-name/"
                         + summonerName
                         + "?api_key="
-                        + "RGAPI-c194ff07-1468-47f7-9e0c-ef280f9b035b";
+                        + "RGAPI-79a232f6-b69e-46c5-948e-765610fd0739";
                 sendRequest(url, LoginActivity.this, SummonerResponse.class);
             } else {
                 Toast.makeText(this, "Please enter a summoner name!", Toast.LENGTH_SHORT).show();
@@ -66,22 +68,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             SummonerResponse summonerResponse = (SummonerResponse) baseResponse;
             if (summonerResponse != null) {
                 Log.d(TAG, summonerResponse.toString());
-                Toast.makeText(this, summonerResponse.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, summonerResponse.getSummoner().toString(), Toast.LENGTH_SHORT).show();
                 DashboardVM dashboardVM = new DashboardVM();
                 Bundle bundle = new Bundle();
 
-                dashboardVM.setAccountID(summonerResponse.getAccountID());
-                dashboardVM.setId(summonerResponse.getId());
-                dashboardVM.setName(summonerResponse.getName());
-                dashboardVM.setProfileIconID(summonerResponse.getProfileIconID());
-                dashboardVM.setRevisionDate(summonerResponse.getRevisionDate());
-                dashboardVM.setSummonerLevel(summonerResponse.getSummonerLevel());
+                dashboardVM.setAccountID(summonerResponse.getSummoner().getAccountID());
+                dashboardVM.setId(summonerResponse.getSummoner().getId());
+                dashboardVM.setName(summonerResponse.getSummoner().getName());
+                dashboardVM.setProfileIconID(summonerResponse.getSummoner().getProfileIconID());
+                dashboardVM.setRevisionDate(summonerResponse.getSummoner().getRevisionDate());
+                dashboardVM.setSummonerLevel(summonerResponse.getSummoner().getSummonerLevel());
 
                 bundle.putParcelable(LoginEnum.User.toString(), dashboardVM);
-//                Intent intent = new Intent(this, DashboardActivity.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//                finish();
+                Intent intent = new Intent(this, DashboardActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
 
             }
         }

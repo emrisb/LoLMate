@@ -1,5 +1,7 @@
 package com.isbsoft.lolmate.core.network;
 
+import android.util.Log;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -38,11 +40,13 @@ public class VolleyManager implements Response.ErrorListener, Response.Listener<
         GsonBuilder gsonBuilder = new GsonBuilder();
 
         Gson gson = gsonBuilder.create();
+        response = "{\"top_data\":" + response + "}";
 
-        if (!response.startsWith("{")) {
-            response = "{\"object\":" + response + "}";
-        }
+        /*if (!response.startsWith("{")) {
+            response = "{\"top_data\":" + response + "}"; //json datasi array ise objecte convert etmek icin
+        }*/
 
+        Log.d("Response: ", response);
         BaseResponse baseResponse = gson.fromJson(response, responseClass);
         onResponse.onSuccessResponse(baseResponse);
     }

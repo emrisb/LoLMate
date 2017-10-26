@@ -6,10 +6,11 @@ package com.isbsoft.lolmate.core.network.enums;
 
 public enum RequestURL {
 
+    // TODO: buraya bak hata olabilir.
     BaseURL {
         @Override
         public String toString() {
-            return "https://tr1.api.riotgames.com/lol/summoner/v3/summoners/by-name/";
+            return "https://tr1.api.riotgames.com/lol/";
         }
     },
 

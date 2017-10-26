@@ -2,7 +2,7 @@ package com.isbsoft.lolmate;
 
 import com.isbsoft.lolmate.core.network.enums.RequestURL;
 import com.isbsoft.lolmate.core.network.interfaces.OnResponse;
-import com.isbsoft.lolmate.core.network.response.SummonerResponse;
+import com.isbsoft.lolmate.core.network.response.MatchListResponse;
 import com.isbsoft.lolmate.core.ui.BaseActivity;
 
 /**
@@ -11,14 +11,16 @@ import com.isbsoft.lolmate.core.ui.BaseActivity;
 
 public class SendRequest {
 
-    public void sendLoginRequest(BaseActivity baseActivity, String summonerName, OnResponse onResponse) {
+    public void sendMatchListRequest(BaseActivity baseActivity, int accountId, OnResponse onResponse) {
 
         String url = RequestURL.BaseURL.toString()
-                + summonerName
+                + "match/v3/matchlists/by-account/"
+                + accountId
+                + "/recent"
                 + "?api_key="
-                + "RGAPI-2bee5def-ea2f-4204-b2dd-b7730070de43";
+                + "RGAPI-79a232f6-b69e-46c5-948e-765610fd0739";
 
-        baseActivity.sendRequest(url, onResponse, SummonerResponse.class);
+        baseActivity.sendRequest(url, onResponse, MatchListResponse.class);
     }
 
 }

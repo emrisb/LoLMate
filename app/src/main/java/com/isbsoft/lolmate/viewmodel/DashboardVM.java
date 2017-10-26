@@ -3,13 +3,12 @@ package com.isbsoft.lolmate.viewmodel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by emre on 10/8/2017.
  */
 
 public class DashboardVM implements Parcelable {
+
 
     public static final Creator<DashboardVM> CREATOR = new Creator<DashboardVM>() {
         @Override
@@ -22,17 +21,11 @@ public class DashboardVM implements Parcelable {
             return new DashboardVM[size];
         }
     };
-    @SerializedName("id")
     private int id;
-    @SerializedName("accountId")
     private int accountID;
-    @SerializedName("name")
     private String name;
-    @SerializedName("profileIconId")
     private int profileIconID;
-    @SerializedName("revisionDate")
     private long revisionDate;
-    @SerializedName("summonerLevel")
     private int summonerLevel;
 
     public DashboardVM() {
@@ -84,6 +77,8 @@ public class DashboardVM implements Parcelable {
         return revisionDate;
     }
 
+    // parcelable
+
     public void setRevisionDate(long revisionDate) {
         this.revisionDate = revisionDate;
     }
@@ -91,8 +86,6 @@ public class DashboardVM implements Parcelable {
     public int getSummonerLevel() {
         return summonerLevel;
     }
-
-    // parcelable
 
     public void setSummonerLevel(int summonerLevel) {
         this.summonerLevel = summonerLevel;
