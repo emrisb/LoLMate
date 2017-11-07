@@ -2,11 +2,13 @@ package com.isbsoft.lolmate.core.network.endpoints.summoner.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by emre on 10/23/2017.
  */
 
-public class Summoner {
+public class Summoner implements Serializable {
 
     @SerializedName("id")
     private int id;

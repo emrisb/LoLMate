@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by emre on 10/20/2017.
  */
 
-public class MatchDTO {
+public class MatchReference {
 
     @SerializedName("lane")
     private String lane;

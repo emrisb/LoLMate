@@ -18,7 +18,7 @@ public class SendRequest {
                 + accountId
                 + "/recent"
                 + "?api_key="
-                + "RGAPI-79a232f6-b69e-46c5-948e-765610fd0739";
+                + "RGAPI-2366fe1d-0781-446f-8612-7294c9b68466";
 
         baseActivity.sendRequest(url, onResponse, MatchListResponse.class);
     }

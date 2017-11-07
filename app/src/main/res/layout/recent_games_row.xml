@@ -3,199 +3,252 @@
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:layout_marginTop="40dp"
+    android:layout_height="150dp"
+    android:layout_margin="10dp"
     card:cardCornerRadius="2dp"
     card:contentPadding="5dp"
     card:elevation="2dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/card_view_main_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view_ivProfile"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@drawable/sivir"
-            app:civ_border_color="#000000"
-            app:civ_border_width="2dp" />
+        android:layout_gravity="center_horizontal">
 
         <LinearLayout
-            android:id="@+id/card_view_ll_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:id="@+id/card_view_ll_first"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view_ivProfile"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_alignTop="@+id/card_view_ll_first"
+                android:layout_gravity="center_horizontal"
+                android:layout_toLeftOf="@+id/linearLayout"
+                android:layout_toStartOf="@+id/linearLayout"
+                android:src="@drawable/sivir"
+                app:civ_border_color="#000000"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:id="@+id/card_view_txt_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Win" />
+                android:layout_gravity="center_horizontal"
+                android:text="Win"
+                android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/card_view_txt_degree"
+                android:id="@+id/card_view_txt_platform"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="degree" />
+                android:layout_gravity="center_horizontal"
+                android:text="Platform"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/card_view_txt_time_ago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55 min ago" />
-
+                android:layout_gravity="center_horizontal"
+                android:text="55 min ago"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/card_view_rl_info"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/card_view_ll_second"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp">
-
-            <TextView
-                android:id="@+id/card_view_txt_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15" />
+            android:layout_margin="5dp"
+            android:layout_toEndOf="@+id/card_view_ll_first"
+            android:layout_toRightOf="@+id/card_view_ll_first"
+            android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/card_view_iv_score"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_toRightOf="@id/card_view_txt_score" />
-
-            <TextView
-                android:id="@+id/card_view_txt_creep"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/card_view_txt_score"
-                android:text="15" />
-
-            <ImageView
-                android:id="@+id/card_view_iv_creep"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/card_view_txt_score"
-                android:layout_toRightOf="@id/card_view_txt_creep" />
+                android:id="@+id/card_view_iv_kda"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/kda" />
 
             <TextView
                 android:id="@+id/card_view_txt_kda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/card_view_txt_creep"
-                android:text="15" />
+                android:text="15/5/5"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
 
             <ImageView
-                android:id="@+id/card_view_iv_kda"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/card_view_txt_creep"
-                android:layout_toRightOf="@id/card_view_txt_kda" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/card_view_rl_items"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp">
-
-            <ImageView
-                android:id="@+id/iv_item1"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/item" />
-
-            <ImageView
-                android:id="@+id/iv_item2"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="1dp"
-                android:layout_toRightOf="@id/iv_item1"
-                android:src="@drawable/item" />
-
-            <ImageView
-                android:id="@+id/iv_item3"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="1dp"
-                android:layout_toRightOf="@id/iv_item2"
-                android:src="@drawable/item" />
-
-            <ImageView
-                android:id="@+id/iv_item4"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="1dp"
-                android:layout_toRightOf="@id/iv_item3"
-                android:src="@drawable/item" />
-
-            <ImageView
-                android:id="@+id/iv_item5"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/iv_item1"
-                android:layout_marginTop="1dp"
-                android:src="@drawable/item" />
-
-            <ImageView
-                android:id="@+id/iv_item6"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/iv_item1"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_toRightOf="@id/iv_item5"
-                android:src="@drawable/item" />
-
-            <ImageView
-                android:id="@+id/iv_item7"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@id/iv_item1"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_toRightOf="@id/iv_item6"
-                android:src="@drawable/item" />
-
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical">
+                android:id="@+id/card_view_iv_creep"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/scoreboardicon_minion" />
 
             <TextView
-                android:id="@+id/txt_total_time"
+                android:id="@+id/card_view_txt_creep"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="38m 35s" />
+                android:text="15"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/card_view_iv_score"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/scoreboardicon_gold" />
 
             <TextView
-                android:id="@+id/txt_game_date"
+                android:id="@+id/card_view_txt_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15.10.2017" />
-
-            <TextView
-                android:id="@+id/txt_placed_totem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4 placed totem" />
+                android:text="15"
+                android:textColor="@color/black"
+                android:textSize="17sp" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/card_view_ll_third"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_view_ll_second"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toEndOf="@+id/card_view_ll_first"
+            android:layout_toRightOf="@+id/card_view_ll_first"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_item1"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/empty" />
 
+            <ImageView
+                android:id="@+id/iv_item2"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/empty" />
+
+            <ImageView
+                android:id="@+id/iv_item3"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/empty" />
+
+            <ImageView
+                android:id="@+id/iv_item4"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/empty" />
+
+            <ImageView
+                android:id="@+id/iv_item5"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/empty" />
+
+            <ImageView
+                android:id="@+id/iv_item6"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/empty" />
+
+            <ImageView
+                android:id="@+id/iv_item7"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/empty" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/card_view_ll_third"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@id/card_view_ll_first"
+            android:layout_toRightOf="@id/card_view_ll_first"
+            android:orientation="horizontal"
+            android:paddingHorizontal="5dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/duration" />
+
+                <TextView
+                    android:id="@+id/txt_total_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="38m 35s"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/calendar" />
+
+                <TextView
+                    android:id="@+id/txt_game_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15.10.3517"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/wards" />
+
+                <TextView
+                    android:id="@+id/txt_placed_totem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4 placed"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

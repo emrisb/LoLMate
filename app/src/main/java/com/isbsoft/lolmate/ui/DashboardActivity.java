@@ -1,14 +1,15 @@
 package com.isbsoft.lolmate.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -16,20 +17,31 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.isbsoft.lolmate.R;
 import com.isbsoft.lolmate.adapter.ViewPagerAdapter;
+import com.isbsoft.lolmate.core.network.endpoints.match.dto.Match;
+import com.isbsoft.lolmate.core.network.enums.RequestURL;
 import com.isbsoft.lolmate.core.network.interfaces.OnResponse;
 import com.isbsoft.lolmate.core.network.response.BaseResponse;
 import com.isbsoft.lolmate.core.network.response.MatchListResponse;
+import com.isbsoft.lolmate.core.network.response.MatchResponse;
 import com.isbsoft.lolmate.core.ui.BaseActivity;
 import com.isbsoft.lolmate.enums.LoginEnum;
 import com.isbsoft.lolmate.viewmodel.DashboardVM;
+import com.isbsoft.lolmate.viewmodel.MatchListVM;
+
+import java.util.ArrayList;
 
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, OnResponse {
 
-    DashboardVM dashboardVM;
+    int i = 0;
+    private DashboardVM dashboardVM;
+    private MatchListVM matchListVM;
+    private ArrayList<Match> matches;
+    private Long[] gameIds;
     //widget
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -38,8 +50,6 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Bundle bundle = getIntent().getExtras();
-        dashboardVM = bundle.getParcelable(LoginEnum.User.toString());
 
         initView();
 
@@ -56,27 +66,31 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        toggle.syncState();
+    }
+
     private void initView() {
+        matches = new ArrayList<>();
+        gameIds = new Long[20];
+        matchListVM = new MatchListVM();
         tabLayout = (TabLayout) findViewById(R.id.activity_dashboard_tabLayout);
         viewPager = (ViewPager) findViewById(R.id.activity_dashboard_viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        ProfileFragment profileFragment = new ProfileFragment();
-        ChampionsFragment championsFragment = new ChampionsFragment();
-        viewPagerAdapter.addFragment(ProfileFragment.newInstance(dashboardVM), "Profile");
-        viewPagerAdapter.addFragment(championsFragment, "Champions");
-
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setCurrentItem(0);
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
+        toggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         ) {
             @Override
@@ -90,29 +104,40 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             }
         };
         drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-
         initEvent();
-        printData();
 
     }
 
-    private void printData() {
+    private void initEvent() {
+        setSupportActionBar(toolbar);
+        Bundle bundle = getIntent().getExtras();
+        dashboardVM = bundle.getParcelable(LoginEnum.User.toString());
         if (dashboardVM != null) {
             setTitle(dashboardVM.getName());
             Toast.makeText(this, dashboardVM.getName(), Toast.LENGTH_SHORT).show();
         }
+
+        getRecentMatches();
+
+
     }
 
-    private void initEvent() {
+    private void setViewPager() {
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter.addFragment(ProfileFragment.newInstance(dashboardVM, matchListVM), "Profile");
+        viewPagerAdapter.addFragment(new ChampionsFragment(), "Champions");
+        viewPager.setAdapter(viewPagerAdapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(0);
 
     }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         if (item.isChecked()) {
             item.setChecked(false);
         } else {
@@ -122,12 +147,18 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         drawerLayout.closeDrawers();
 
         switch (item.getItemId()) {
-            case R.id.menu_principal:
-                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+            case R.id.menu_login:
+                startActivity(new Intent(this, LoginActivity.class));
+                //Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
                 break;
 
-            case R.id.rechercher:
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+            case R.id.menu_recent_matches:
+                viewPager.setCurrentItem(0);
+                //Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.champions:
+                viewPager.setCurrentItem(1);
+                //Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
                 break;
 
         }
@@ -135,14 +166,53 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         return true;
     }
 
+    private void getRecentMatches() {
+
+        long accountId = dashboardVM.getAccountID();
+        String url = RequestURL.MatchListURL.toString()
+                + accountId
+                + "/recent"
+                + "?api_key="
+                + RequestURL.ApiKey;
+        sendRequest(url, DashboardActivity.this, MatchListResponse.class);
+    }
+
     @Override
     public void onSuccessResponse(BaseResponse baseResponse) {
-
         if (baseResponse instanceof MatchListResponse) {
             MatchListResponse matchListResponse = (MatchListResponse) baseResponse;
             if (matchListResponse != null) {
-                Log.d("fadfa", matchListResponse.toString());
-                Toast.makeText(this, matchListResponse.getData().toString(), Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < matchListResponse.getData().getMatches().size(); i++) {
+                    gameIds[i] = matchListResponse.getData().getMatches().get(i).getGameId();
+                }
+                //Logger.d(gameIds);
+                //getMatchDetail();
+                if (i == 0) {
+                    String url;
+                    url = RequestURL.MatchDetailURL.toString()
+                            + gameIds[i]
+                            + "?api_key="
+                            + RequestURL.ApiKey;
+                    sendRequest(url, DashboardActivity.this, MatchResponse.class);
+                    i++;
+                }
+            }
+        } else if (baseResponse instanceof MatchResponse) {
+            MatchResponse matchResponse = (MatchResponse) baseResponse;
+            if (matchResponse != null) {
+                matches.add(matchResponse.getData());
+                if (i > 0 && i < 20) {
+                    String url;
+                    url = RequestURL.MatchDetailURL.toString()
+                            + gameIds[i]
+                            + "?api_key="
+                            + RequestURL.ApiKey;
+                    sendRequest(url, DashboardActivity.this, MatchResponse.class);
+                    i++;
+                } else if (i == 20) {
+                    matchListVM.setMatches(matches);
+                    setViewPager();
+                }
             }
         }
     }
@@ -150,5 +220,16 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     @Override
     public void onErrorResponse(VolleyError error, Class<? extends BaseResponse> responseClass) {
 
+    }
+
+    private void getMatchDetail() {
+        String url;
+        for (int i = 0; i < 20; i++) {
+            url = RequestURL.MatchDetailURL.toString()
+                    + gameIds[i]
+                    + "?api_key="
+                    + RequestURL.ApiKey;
+            sendRequest(url, DashboardActivity.this, MatchResponse.class);
+        }
     }
 }

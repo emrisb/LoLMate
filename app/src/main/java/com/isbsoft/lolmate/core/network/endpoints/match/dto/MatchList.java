@@ -8,10 +8,10 @@ import java.util.List;
  * Created by emre on 10/20/2017.
  */
 
-public class MatchStatDTO {
+public class MatchList {
 
     @SerializedName("matches")
-    private List<MatchDTO> matches = null;
+    private List<MatchReference> matches = null;
     @SerializedName("endIndex")
     private Integer endIndex;
     @SerializedName("startIndex")
@@ -19,11 +19,11 @@ public class MatchStatDTO {
     @SerializedName("totalGames")
     private Integer totalGames;
 
-    public List<MatchDTO> getMatches() {
+    public List<MatchReference> getMatches() {
         return matches;
     }
 
-    public void setMatches(List<MatchDTO> matches) {
+    public void setMatches(List<MatchReference> matches) {
         this.matches = matches;
     }
 

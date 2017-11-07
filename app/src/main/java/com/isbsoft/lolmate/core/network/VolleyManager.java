@@ -1,7 +1,5 @@
 package com.isbsoft.lolmate.core.network;
 
-import android.util.Log;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -10,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import com.isbsoft.lolmate.app.AppController;
 import com.isbsoft.lolmate.core.network.interfaces.OnResponse;
 import com.isbsoft.lolmate.core.network.response.BaseResponse;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by emre on 10/6/2017.
@@ -19,10 +18,11 @@ public class VolleyManager implements Response.ErrorListener, Response.Listener<
 
     private OnResponse onResponse = null;
     private Class<? extends BaseResponse> responseClass = null;
-
+    private GsonBuilder gsonBuilder;
     public void sendRequest(String url, OnResponse onResponse, Class<? extends BaseResponse> responseClass) {
         this.onResponse = onResponse;
         this.responseClass = responseClass;
+        gsonBuilder = new GsonBuilder();
 
         StringRequest stringRequest = new StringRequest(url, this, this);
 
@@ -37,16 +37,15 @@ public class VolleyManager implements Response.ErrorListener, Response.Listener<
 
     @Override
     public void onResponse(String response) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
 
         Gson gson = gsonBuilder.create();
         response = "{\"top_data\":" + response + "}";
-
+        Logger.json(response);
         /*if (!response.startsWith("{")) {
             response = "{\"top_data\":" + response + "}"; //json datasi array ise objecte convert etmek icin
         }*/
 
-        Log.d("Response: ", response);
+        //Log.d("Response: ", response);
         BaseResponse baseResponse = gson.fromJson(response, responseClass);
         onResponse.onSuccessResponse(baseResponse);
     }

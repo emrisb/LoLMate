@@ -1,7 +1,7 @@
 package com.isbsoft.lolmate.core.network.response;
 
 import com.google.gson.annotations.SerializedName;
-import com.isbsoft.lolmate.core.network.endpoints.match.dto.MatchStatDTO;
+import com.isbsoft.lolmate.core.network.endpoints.match.dto.MatchList;
 
 /**
  * Created by emre on 10/23/2017.
@@ -9,13 +9,13 @@ import com.isbsoft.lolmate.core.network.endpoints.match.dto.MatchStatDTO;
 
 public class MatchListResponse extends BaseResponse {
     @SerializedName("top_data")
-    private MatchStatDTO data;
+    private MatchList data;
 
-    public MatchStatDTO getData() {
+    public MatchList getData() {
         return data;
     }
 
-    public void setData(MatchStatDTO data) {
+    public void setData(MatchList data) {
         this.data = data;
     }
 }

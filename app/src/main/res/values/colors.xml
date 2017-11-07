@@ -10,5 +10,6 @@
     <color name="bg_general">#ff353535</color>
     <color name="PrimaryColor">#3f3f3f</color>
     <color name="DarkPrimaryColor">#212121</color>
+    <color name="black">#000000</color>
 
 </resources>

@@ -23,12 +23,25 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private final static String TAG = LoginActivity.class.getSimpleName();
     private EditText edtSummoner;
     private Button btnLogin;
+    //private ProgressBar pbLogin;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        /*VideoView videoView = (VideoView) findViewById(R.id.bgvideo);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.vid);
+        videoView.setVideoURI(uri);
+        videoView.start();
+
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });*/
 
         initView();
     }
@@ -37,7 +50,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void initView() {
         edtSummoner = (EditText) findViewById(R.id.activity_login_edtSummonerId);
         btnLogin = (Button) findViewById(R.id.activity_login_btnLogin);
-
+        //pbLogin = (ProgressBar) findViewById(R.id.activity_login_pbLogin);
+        //pbLogin.setVisibility(View.INVISIBLE);
         initEvent();
     }
 
@@ -50,11 +64,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (view.getId() == R.id.activity_login_btnLogin) {
             String summonerName = edtSummoner.getText().toString().trim();
             if (summonerName.length() > 0) {
-                String url = RequestURL.BaseURL.toString()
-                        + "summoner/v3/summoners/by-name/"
+                //pbLogin.setVisibility(View.VISIBLE);
+                String url = RequestURL.LoginURL.toString()
                         + summonerName
                         + "?api_key="
-                        + "RGAPI-79a232f6-b69e-46c5-948e-765610fd0739";
+                        + RequestURL.ApiKey;
                 sendRequest(url, LoginActivity.this, SummonerResponse.class);
             } else {
                 Toast.makeText(this, "Please enter a summoner name!", Toast.LENGTH_SHORT).show();
@@ -67,6 +81,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (baseResponse instanceof SummonerResponse) {
             SummonerResponse summonerResponse = (SummonerResponse) baseResponse;
             if (summonerResponse != null) {
+                //pbLogin.setVisibility(View.INVISIBLE);
                 Log.d(TAG, summonerResponse.toString());
                 Toast.makeText(this, summonerResponse.getSummoner().toString(), Toast.LENGTH_SHORT).show();
                 DashboardVM dashboardVM = new DashboardVM();
@@ -91,7 +106,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onErrorResponse(VolleyError error, Class<? extends BaseResponse> responseClass) {
-
+        //pbLogin.setVisibility(View.INVISIBLE);
     }
 
 }
