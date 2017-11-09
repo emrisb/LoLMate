@@ -3,6 +3,8 @@
     android:id="@+id/fragment_profile_srl_master"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_rv"
+
     tools:context="com.isbsoft.lolmate.ui.ProfileFragment">
 
     <android.support.v7.widget.RecyclerView

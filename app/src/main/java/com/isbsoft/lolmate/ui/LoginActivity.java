@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -23,7 +25,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private final static String TAG = LoginActivity.class.getSimpleName();
     private EditText edtSummoner;
     private Button btnLogin;
-    //private ProgressBar pbLogin;
+    private ProgressBar pbLogin;
 
 
     @Override
@@ -50,8 +52,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void initView() {
         edtSummoner = (EditText) findViewById(R.id.activity_login_edtSummonerId);
         btnLogin = (Button) findViewById(R.id.activity_login_btnLogin);
-        //pbLogin = (ProgressBar) findViewById(R.id.activity_login_pbLogin);
-        //pbLogin.setVisibility(View.INVISIBLE);
+        pbLogin = (ProgressBar) findViewById(R.id.activity_login_pbLogin);
+
         initEvent();
     }
 
@@ -64,7 +66,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (view.getId() == R.id.activity_login_btnLogin) {
             String summonerName = edtSummoner.getText().toString().trim();
             if (summonerName.length() > 0) {
-                //pbLogin.setVisibility(View.VISIBLE);
+                pbLogin.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 String url = RequestURL.LoginURL.toString()
                         + summonerName
                         + "?api_key="
@@ -81,9 +85,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (baseResponse instanceof SummonerResponse) {
             SummonerResponse summonerResponse = (SummonerResponse) baseResponse;
             if (summonerResponse != null) {
-                //pbLogin.setVisibility(View.INVISIBLE);
-                Log.d(TAG, summonerResponse.toString());
-                Toast.makeText(this, summonerResponse.getSummoner().toString(), Toast.LENGTH_SHORT).show();
+                Log.d(TAG, summonerResponse.getSummoner().toString());
+                //Toast.makeText(this, summonerResponse.getSummoner().toString(), Toast.LENGTH_SHORT).show();
                 DashboardVM dashboardVM = new DashboardVM();
                 Bundle bundle = new Bundle();
 
@@ -97,6 +100,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 bundle.putParcelable(LoginEnum.User.toString(), dashboardVM);
                 Intent intent = new Intent(this, DashboardActivity.class);
                 intent.putExtras(bundle);
+
+                pbLogin.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 startActivity(intent);
                 finish();
 
@@ -106,7 +112,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onErrorResponse(VolleyError error, Class<? extends BaseResponse> responseClass) {
-        //pbLogin.setVisibility(View.INVISIBLE);
+        pbLogin.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        Toast.makeText(this, "Please enter a valid summoner name!", Toast.LENGTH_SHORT).show();
+        Log.d("sumname: ", edtSummoner.getText().toString());
     }
 
 }

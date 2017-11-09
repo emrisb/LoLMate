@@ -2,13 +2,14 @@ package com.isbsoft.lolmate.core.network.endpoints.match.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
  * Created by emre on 10/28/2017.
  */
 
-public class ParticipantTimeline {
+public class ParticipantTimeline implements Serializable {
 
     @SerializedName("lane")
     private String lane;

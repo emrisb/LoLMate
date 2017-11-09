@@ -4,8 +4,9 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:layout_margin="10dp"
-    card:cardCornerRadius="2dp"
+    android:layout_margin="15dp"
+    android:alpha="0.8"
+    card:cardCornerRadius="3dp"
     card:contentPadding="5dp"
     card:elevation="2dp">
 
@@ -40,7 +41,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Win"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/card_view_txt_platform"

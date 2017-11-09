@@ -1,9 +1,12 @@
 package com.isbsoft.lolmate.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.isbsoft.lolmate.R;
 import com.isbsoft.lolmate.core.network.endpoints.match.dto.Match;
@@ -43,6 +46,8 @@ public class RecyclerRecentMatchesAdapter extends RecyclerView.Adapter<RecyclerR
 
     @Override
     public void onBindViewHolder(RecyclerRecentMatchesViewHolder holder, int position) {
+
+
         Match match = matchList.get(position);
         int winTeamId, failTeamId, participantId = 0;
         boolean isPlayerWin = false;
@@ -128,8 +133,12 @@ public class RecyclerRecentMatchesAdapter extends RecyclerView.Adapter<RecyclerR
         }
         if (isPlayerWin) {
             holder.txtResult.setText("Win");
+            holder.txtResult.setTextColor(Color.parseColor("#64DD17"));
+            holder.ivProfile.setBorderColor(Color.parseColor("#64DD17"));
         } else {
             holder.txtResult.setText("Lost");
+            holder.txtResult.setTextColor(Color.parseColor("#FF1744"));
+            holder.ivProfile.setBorderColor(Color.parseColor("#FF1744"));
         }
         holder.txtPlatform.setText(match.getPlatformId());
 
@@ -146,12 +155,20 @@ public class RecyclerRecentMatchesAdapter extends RecyclerView.Adapter<RecyclerR
             e.printStackTrace();
         }
 
-        //holder.txtResult.setText(match.getParticipants().);
+
+        setRecyclerViewAnimation(holder.cardView);
 
     }
 
     @Override
     public int getItemCount() {
         return matchList.size();
+    }
+
+    private void setRecyclerViewAnimation(View view) {
+
+        Animation animation = AnimationUtils.loadAnimation(dashboardActivity, android.R.anim.fade_in);
+        animation.setDuration(1000);
+        view.startAnimation(animation);
     }
 }

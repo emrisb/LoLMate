@@ -2,11 +2,13 @@ package com.isbsoft.lolmate.core.network.endpoints.match.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by emre on 10/28/2017.
  */
 
-public class ParticipantStats {
+public class ParticipantStats implements Serializable {
 
     @SerializedName("item1")
     private Integer item1;

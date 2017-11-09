@@ -53,10 +53,12 @@
         android:text="@string/login"
         android:textColor="#cdfafa"
         android:textSize="18sp" />
-    <!-- <ProgressBar
+
+    <ProgressBar
         android:id="@+id/activity_login_pbLogin"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginTop="5dp"/> -->
+        android:layout_marginTop="-100dp"
+        android:visibility="gone" />
 </LinearLayout>

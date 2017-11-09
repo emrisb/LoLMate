@@ -24,13 +24,23 @@ public class MatchListVM implements Parcelable {
             return new MatchListVM[size];
         }
     };
+    private Match match;
     private ArrayList<Match> matches;
+
+    protected MatchListVM(Parcel parcel) {
+        match = (Match) parcel.readSerializable();
+        matches = parcel.readArrayList(null);
+    }
 
     public MatchListVM() {
     }
 
-    protected MatchListVM(Parcel in) {
-        matches = in.readArrayList(null);
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
     public ArrayList<Match> getMatches() {
@@ -41,6 +51,7 @@ public class MatchListVM implements Parcelable {
         this.matches = matches;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -48,6 +59,7 @@ public class MatchListVM implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeSerializable(match);
         parcel.writeList(matches);
     }
 }

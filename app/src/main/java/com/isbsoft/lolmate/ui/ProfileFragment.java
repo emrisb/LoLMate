@@ -81,6 +81,8 @@ public class ProfileFragment extends BaseFragment implements OnResponse {
         matchList = matchListVM.getMatches();
         adapter = new RecyclerRecentMatchesAdapter(matchList, (DashboardActivity) getActivity(), dashboardVM.getAccountID());
         rvRecentMatches.setAdapter(adapter);
+
+
     }
 
     @Override
@@ -110,7 +112,6 @@ public class ProfileFragment extends BaseFragment implements OnResponse {
             if (matchListResponse != null) {
                 Long gameId = matchListResponse.getData().getMatches().get(0).getGameId();
                 Logger.d(gameId);
-
 
             }
         }

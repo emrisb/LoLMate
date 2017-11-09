@@ -1,6 +1,7 @@
 package com.isbsoft.lolmate.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,9 +13,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.github.lzyzsd.circleprogress.CircleProgress;
 import com.isbsoft.lolmate.R;
 import com.isbsoft.lolmate.adapter.ViewPagerAdapter;
 import com.isbsoft.lolmate.core.network.endpoints.match.dto.Match;
@@ -32,7 +36,9 @@ import java.util.ArrayList;
 
 public class DashboardActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, OnResponse {
 
-    int i = 0;
+    int reqSize = 0;
+    int numberOfMatches = 0;
+    CircleProgress circleProgress;
     private DashboardVM dashboardVM;
     private MatchListVM matchListVM;
     private ArrayList<Match> matches;
@@ -44,6 +50,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ProgressBar pbRecentMatches;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +96,8 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        pbRecentMatches = (ProgressBar) findViewById(R.id.activity_dashboard_pbRecentMatches);
+        circleProgress = (CircleProgress) findViewById(R.id.circle_progress);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -116,9 +125,13 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
         dashboardVM = bundle.getParcelable(LoginEnum.User.toString());
         if (dashboardVM != null) {
             setTitle(dashboardVM.getName());
-            Toast.makeText(this, dashboardVM.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Welcome " + dashboardVM.getName(), Toast.LENGTH_SHORT).show();
         }
 
+        //pbRecentMatches.setVisibility(View.VISIBLE);
+        circleProgress.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         getRecentMatches();
 
 
@@ -126,7 +139,7 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     private void setViewPager() {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(ProfileFragment.newInstance(dashboardVM, matchListVM), "Profile");
+        viewPagerAdapter.addFragment(ProfileFragment.newInstance(dashboardVM, matchListVM), "Matches");
         viewPagerAdapter.addFragment(new ChampionsFragment(), "Champions");
         viewPager.setAdapter(viewPagerAdapter);
 
@@ -184,32 +197,38 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
             if (matchListResponse != null) {
                 for (int i = 0; i < matchListResponse.getData().getMatches().size(); i++) {
                     gameIds[i] = matchListResponse.getData().getMatches().get(i).getGameId();
+                    numberOfMatches++;
                 }
                 //Logger.d(gameIds);
                 //getMatchDetail();
-                if (i == 0) {
+                if (reqSize == 0) {
                     String url;
                     url = RequestURL.MatchDetailURL.toString()
-                            + gameIds[i]
+                            + gameIds[reqSize]
                             + "?api_key="
                             + RequestURL.ApiKey;
                     sendRequest(url, DashboardActivity.this, MatchResponse.class);
-                    i++;
+                    reqSize++;
+                    circleProgress.setProgress(reqSize * 5);
                 }
             }
         } else if (baseResponse instanceof MatchResponse) {
             MatchResponse matchResponse = (MatchResponse) baseResponse;
             if (matchResponse != null) {
                 matches.add(matchResponse.getData());
-                if (i > 0 && i < 20) {
+                if (reqSize > 0 && reqSize < numberOfMatches) {
                     String url;
                     url = RequestURL.MatchDetailURL.toString()
-                            + gameIds[i]
+                            + gameIds[reqSize]
                             + "?api_key="
                             + RequestURL.ApiKey;
                     sendRequest(url, DashboardActivity.this, MatchResponse.class);
-                    i++;
-                } else if (i == 20) {
+                    reqSize++;
+                    circleProgress.setProgress(reqSize * 5);
+                } else if (reqSize == numberOfMatches) {
+                    //pbRecentMatches.setVisibility(View.GONE);
+                    circleProgress.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     matchListVM.setMatches(matches);
                     setViewPager();
                 }
@@ -219,7 +238,11 @@ public class DashboardActivity extends BaseActivity implements NavigationView.On
 
     @Override
     public void onErrorResponse(VolleyError error, Class<? extends BaseResponse> responseClass) {
+        //pbRecentMatches.setVisibility(View.GONE);
 
+        circleProgress.setVisibility(View.GONE);
+        circleProgress.setFinishedColor(Color.RED);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void getMatchDetail() {
