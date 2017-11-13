@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.NetworkError;
 import com.android.volley.VolleyError;
 import com.isbsoft.lolmate.R;
 import com.isbsoft.lolmate.core.network.enums.RequestURL;
@@ -32,18 +33,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        /*VideoView videoView = (VideoView) findViewById(R.id.bgvideo);
-        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.vid);
-        videoView.setVideoURI(uri);
-        videoView.start();
-
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.setLooping(true);
-            }
-        });*/
 
         initView();
     }
@@ -116,6 +105,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         Toast.makeText(this, "Please enter a valid summoner name!", Toast.LENGTH_SHORT).show();
         Log.d("sumname: ", edtSummoner.getText().toString());
+        if (error instanceof NetworkError) {
+            Log.d("hata: ", "network yok");
+        }
     }
+
 
 }

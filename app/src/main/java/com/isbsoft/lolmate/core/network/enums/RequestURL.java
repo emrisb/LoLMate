@@ -32,7 +32,7 @@ public enum RequestURL {
     ApiKey {
         @Override
         public String toString() {
-            return "RGAPI-751a555d-b007-4c20-9d59-29754c3cd9d7";
+            return "RGAPI-178ac424-f346-4c64-8145-dadd28c78363";
         }
     },
 
@@ -53,7 +53,14 @@ public enum RequestURL {
     ChampionURL {
         @Override
         public String toString() {
-            return "http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/";
+            return "http://ddragon.leagueoflegends.com/cdn/7.22.1/img/champion/";
+        }
+    },
+
+    AllChampions {
+        @Override
+        public String toString() {
+            return "https://tr1.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&tags=image&dataById=true&api_key=" + ApiKey;
         }
     }
 

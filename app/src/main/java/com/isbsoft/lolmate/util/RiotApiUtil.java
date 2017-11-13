@@ -2,13 +2,19 @@ package com.isbsoft.lolmate.util;
 
 import android.content.Context;
 
+import com.isbsoft.lolmate.core.network.endpoints.champion.dto.Champion;
+import com.isbsoft.lolmate.core.network.interfaces.AllChampionsCallBack;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -120,7 +126,6 @@ public class RiotApiUtil {
 
     }
 
-
     public static String getJsonFile(Context context, String filename) {
 
         String json = null;
@@ -132,7 +137,6 @@ public class RiotApiUtil {
             is.read(buffer);
             is.close();
             json = new String(buffer, "UTF-8");
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -161,7 +165,33 @@ public class RiotApiUtil {
         return champName;
     }
 
+    public void getAllChampions(Context context, AllChampionsCallBack allChampionsCallBack) {
+        List<Champion> championList = new ArrayList<>();
+        String json = getJsonFile(context, "champion.json");
+        String championName;
+        JSONObject championObj;
 
+        try {
+            championObj = new JSONObject(json);
+            JSONObject data = championObj.getJSONObject("data");
+
+            Iterator<String> keys = data.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                JSONObject data1 = data.getJSONObject(key);
+                JSONObject image = data1.getJSONObject("image");
+                String championImage = image.getString("full");
+                Champion champion = new Champion();
+                champion.setId(Integer.valueOf(key));
+                champion.setImageName(championImage);
+                championList.add(champion);
+            }
+            allChampionsCallBack.onSuccess(championList);
+        } catch (JSONException e) {
+            allChampionsCallBack.onFailure(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
 
 

@@ -168,7 +168,7 @@ public class RecyclerRecentMatchesAdapter extends RecyclerView.Adapter<RecyclerR
     private void setRecyclerViewAnimation(View view) {
 
         Animation animation = AnimationUtils.loadAnimation(dashboardActivity, android.R.anim.fade_in);
-        animation.setDuration(1000);
+        animation.setDuration(500);
         view.startAnimation(animation);
     }
 }

@@ -8,7 +8,6 @@ import com.google.gson.GsonBuilder;
 import com.isbsoft.lolmate.app.AppController;
 import com.isbsoft.lolmate.core.network.interfaces.OnResponse;
 import com.isbsoft.lolmate.core.network.response.BaseResponse;
-import com.orhanobut.logger.Logger;
 
 /**
  * Created by emre on 10/6/2017.
@@ -19,6 +18,7 @@ public class VolleyManager implements Response.ErrorListener, Response.Listener<
     private OnResponse onResponse = null;
     private Class<? extends BaseResponse> responseClass = null;
     private GsonBuilder gsonBuilder;
+
     public void sendRequest(String url, OnResponse onResponse, Class<? extends BaseResponse> responseClass) {
         this.onResponse = onResponse;
         this.responseClass = responseClass;
@@ -40,7 +40,7 @@ public class VolleyManager implements Response.ErrorListener, Response.Listener<
 
         Gson gson = gsonBuilder.create();
         response = "{\"top_data\":" + response + "}";
-        Logger.json(response);
+        //Logger.json(response);
         /*if (!response.startsWith("{")) {
             response = "{\"top_data\":" + response + "}"; //json datasi array ise objecte convert etmek icin
         }*/

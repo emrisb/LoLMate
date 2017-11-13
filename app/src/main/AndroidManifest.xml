@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.SplashScreenActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.DashboardActivity"></activity>
+        <activity
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.DashboardActivity" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f3f7fc8a162c82fef4cca07a83168a00a16e11b0" />
+
+        <activity android:name=".ui.MatchDetailActivity"></activity>
     </application>
 
 </manifest>
