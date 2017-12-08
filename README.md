@@ -7,10 +7,10 @@ This app is for LOL players. The goal of project is to provide some data to play
 - List of champions.
 
 
-![alt text](https://github.com/emrisb/LoLMate/login.png "Login")
+![alt text](https://github.com/emrisb/LoLMate/blob/master/login.png "Login")
 
-![alt text](https://github.com/emrisb/LoLMate/main.png "main")
+![alt text](https://github.com/emrisb/LoLMate/blob/master/main.png "main")
 
-![alt text](https://github.com/emrisb/LoLMate/detail.png "detail")
+![alt text](https://github.com/emrisb/LoLMate/blob/master/detail.png "detail")
 
-![alt text](https://github.com/emrisb/LoLMate/champs.png "champs")
+![alt text](https://github.com/emrisb/LoLMate/blob/master/champs.png "champs")
