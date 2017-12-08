@@ -8,6 +8,9 @@ This app is for LOL players. The goal of project is to provide some data to play
 
 
 ![alt text](https://github.com/emrisb/LoLMate/login.png "Login")
+
 ![alt text](https://github.com/emrisb/LoLMate/main.png "main")
+
 ![alt text](https://github.com/emrisb/LoLMate/detail.png "detail")
+
 ![alt text](https://github.com/emrisb/LoLMate/champs.png "champs")
